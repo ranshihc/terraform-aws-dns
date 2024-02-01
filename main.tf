@@ -47,7 +47,7 @@ resource "aws_route53_record" "this" {
   zone_id        = aws_route53_zone.this[each.value.zone_name].id
   name           = each.value.name
   type           = each.value.type
-  ttl            = 300
+  ttl            = 600
   set_identifier = lookup(each.value, "set_identifier", null)
   records        = each.value.records
 
