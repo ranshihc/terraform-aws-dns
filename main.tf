@@ -29,13 +29,13 @@ resource "aws_route53_zone" "this" {
 
   name = each.value.zone_name
 
-  dynamic "vpc" {
-    for_each = toset(lookup(each.value, "vpc", []))
+#  dynamic "vpc" {
+#    for_each = toset(lookup(each.value, "vpc", []))
 
-    content {
-      vpc_id = vpc.key
-    }
-  }
+#    content {
+#      vpc_id = vpc.key
+#    }
+#  }
 
   tags = each.value.tags
 }
