@@ -24,18 +24,25 @@ locals {
   }
 }
 
+data "aws_vpcs" "vpc_info" {
+  tags = {
+    env = "dev"
+    bu  = "ran"
+  }
+}
+
 resource "aws_route53_zone" "this" {
   for_each = local.dns_zones
 
   name = each.value.zone_name
 
-#  dynamic "vpc" {
-#    for_each = toset(lookup(each.value, "vpc", []))
+  dynamic "vpc" {
+    for_each = [data.aws_vpcs.vpc_info[each.key].id]
 
-#    content {
-#      vpc_id = vpc.key
-#    }
-#  }
+    content {
+      vpc_id = vpc.value
+    }
+  }
 
   tags = each.value.tags
 }
