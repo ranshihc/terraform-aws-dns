@@ -25,6 +25,10 @@ locals {
 }
 
 data "aws_vpcs" "vpc_info" {
+  for_each = {
+    for dns_zone_name, dns_zone in local.dns_zones :
+    dns_zone_name => dns_zone.vpc
+  }
   tags = {
     env = "dev"
     bu  = "ran"
