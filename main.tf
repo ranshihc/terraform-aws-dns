@@ -24,24 +24,25 @@ locals {
   }
 }
 
-data "aws_vpcs" "vpc_info" {
-  # for_each = {
-  #   for dns_zone_name, dns_zone in local.dns_zones :
-  #   dns_zone_name => dns_zone.vpc
-  # }
+data "aws_vpc" "vpc_info" {
   tags = {
     Environment = "dev"
     Terraform = "true"
   }
+  # filter {
+  #   name   = "tag:Environment"
+  #   values =  ["dev"]
+  # }
 }
 
 resource "aws_route53_zone" "this" {
   for_each = local.dns_zones
 
   name = each.value.zone_name
+  
 
   dynamic "vpc" {
-    for_each = [data.aws_vpcs.vpc_info.id]
+    for_each = [data.aws_vpc.vpc_info.id]
 
     content {
       vpc_id = vpc.value
