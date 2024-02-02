@@ -30,8 +30,8 @@ data "aws_vpcs" "vpc_info" {
   #   dns_zone_name => dns_zone.vpc
   # }
   tags = {
-    env = "dev"
-    bu  = "ran"
+    Environment = "dev"
+    Terraform = "true"
   }
 }
 
